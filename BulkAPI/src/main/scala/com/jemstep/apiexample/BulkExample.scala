@@ -16,9 +16,7 @@ object BulkExample {
 
   def main(args: Array[String]) {
     val example = new BulkExample()
-   // example.runSample("Account_PE__e", "viknesh@brillio.com", "jemstep@2018@rLe7eakEoYPj6LkRsM3Tywa4", 
-   //   "test_file.csv")
-    example.retrieveBulkData("viknesh@brillio.com", "jemstep@2018@rLe7eakEoYPj6LkRsM3Tywa4","Account_PE__e","Select Account_Name__c from Account_PE__e",null,null)  
+   
   }
 }
 
