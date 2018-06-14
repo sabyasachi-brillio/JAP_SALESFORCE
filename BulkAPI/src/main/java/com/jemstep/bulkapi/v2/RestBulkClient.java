@@ -1,11 +1,14 @@
 package com.jemstep.bulkapi.v2;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -30,168 +33,236 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sforce.async.JobStateEnum;
 
-
-
 public class RestBulkClient {
-	private static final String TOKEN_URL =  "https://login.salesforce.com/services/oauth2/token";
-	private static final String CLIENT_ID = "3MVG9zlTNB8o8BA109nYxvVODfPoS4t1BejIPsn7lEkNvVfFX2._DHwWLxkJi60AHeb8fUEohGte56FfXTPh9";
-	private static final String CLIENT_SECRET = "6545678178920959810";
+	private static String TOKEN_URL;
+	private static String CLIENT_ID;
+	private static String CLIENT_SECRET;
+	private static String REFRESH_TOKEN;
+	private static String accessToken;
+	private static String instanceUrl;
+
 	private static final String GRANT_TYPE = "refresh_token";
-	private static final String REFRESH_TOKEN = "5Aep861UTWIWNgl0kdGvykHnCR3hoRyKPUER35xbgjYUZ92F2GjYTxdSOHPNBtvf9KQwQOcyISv8x.8ltaAqIZI";
 	private static final String BEARER = "Bearer";
 	private static final String CONTENT_TYPE = "application/json";
 	private static final String ACCEPT = "application/json";
 	private static final String REST_URI = "/services/data/v42.0/jobs/ingest/";
 	private static final String CREATE_JOB_URI = "/ingest/";
-		
-	private String accessToken;
-	private String instanceUrl;
-	
 
-	 public RestBulkClient createFromRefreshToken() {
-		 CloseableHttpClient httpclient = null;
-	        try {
-	            httpclient = HttpClients.createDefault();
+	static {
+		Properties configProps = new Properties();
+		try {
+			configProps.load(new FileInputStream("config.properties"));
+			TOKEN_URL = (String) configProps.get("TOKEN_URL");
+			CLIENT_ID = (String) configProps.get("CLIENT_ID");
+			CLIENT_SECRET = (String) configProps.get("CLIENT_SECRET");
+			REFRESH_TOKEN = (String) configProps.get("REFRESH_TOKEN");
 
-	            final List<NameValuePair> loginParams = new ArrayList<NameValuePair>();
-	            loginParams.add(new BasicNameValuePair("grant_type", GRANT_TYPE));
-	            loginParams.add(new BasicNameValuePair("client_id", CLIENT_ID));
-	            loginParams.add(new BasicNameValuePair("client_secret", CLIENT_SECRET));
-	            loginParams.add(new BasicNameValuePair("refresh_token", REFRESH_TOKEN));
-
-	            final HttpPost post = new HttpPost(TOKEN_URL);
-	            post.setEntity(new UrlEncodedFormEntity(loginParams));
-
-	            final HttpResponse loginResponse = httpclient.execute(post);
-
-	            // parse
-	            final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-
-	            final JsonNode loginResult = mapper.readValue(loginResponse.getEntity().getContent(), JsonNode.class);
-	            final String accessToken = loginResult.get("access_token").asText();
-	            final String instanceUrl = loginResult.get("instance_url").asText();
-
-	            this.accessToken = accessToken;
-	            this.instanceUrl = instanceUrl;
-	            //wrapper = new RefreshTokenResponseWrapper(accessToken, instanceUrl);
-	            System.out.println("accessToken - "+accessToken);
-	            System.out.println("instanceUrl - "+instanceUrl);
-	            
-	        }
-	        catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	        finally {
-	        	try {
-					httpclient.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-	        }
-	        return this;
-}
-	 
-	 public String createJob(String object)
-	 {
-		 try {
-	        	final String createJobURI = instanceUrl + REST_URI;
-	        	System.out.println("createjob createJobURI -> "+createJobURI);
-	        	final String authorization = BEARER + " " + accessToken;
-
-	            //Set JSON body
-	            final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-	            final CreateJobRequest request = new CreateJobRequest(object, "CSV", "insert", "CRLF");
-	           
-	            final String requestJson = mapper.writeValueAsString(request);
-	            final StringEntity jsonBody = new StringEntity(requestJson);
-
-	            //post the request
-	            final HttpPost post = new HttpPost(createJobURI);
-	            post.setHeader("Authorization", authorization);
-	            post.setHeader("Content-Type", CONTENT_TYPE);
-	            post.setEntity(jsonBody);
-	            System.out.println("create job input jsonBody -> "+mapper.readValue(jsonBody.getContent(), JsonNode.class));
-	            
-	            final CloseableHttpClient httpclient = HttpClients.createDefault();
-	            final HttpResponse response = httpclient.execute(post);
-
-	            final JsonNode responseJson = mapper.readValue(response.getEntity().getContent(), JsonNode.class);
-	            
-	            System.out.println("create job responseJson -> "+responseJson);
-	            
-	            return (responseJson.get("id")).asText();
-	        }
-	        catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	        finally {
-	        	
-	        }
-		 return null;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-	 
-	 public int uploadData(String file, String jobId)
-	 {
-		 final String uploadUri = instanceUrl + REST_URI+ jobId + "/batches";
-     	 System.out.println("upload data createJobURI -> "+uploadUri);
-     	 final String authorization = BEARER + " " + accessToken;
-     	
-     	 
-     	 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-       	 String fileContents = "Account_Name__c,Account_Number__c,Account_Status__c,Account_Type__c,Account_Value__c,Contact__c,Date_Updated__c,Institution__c,Jemstep_Account_Id__c,Jemstep_Id__c\n"+
-                "Kotak,12345,OK,Saving,1230000,,,Govt,Account_PE_123,Account_PE_123\n";
-//     	 StringBody stringBody1 = new StringBody(fileContents, ContentType.DEFAULT_TEXT);
-//     	 
-//     	 builder.addTextBody(file, fileContents,ContentType.DEFAULT_BINARY);
-//     	 builder.addPart("upfile",stringBody1);
-//         HttpEntity multipart = builder.build();
-         
-     	StringEntity data = null;
-     	try {
-			fileContents = new String(Files.readAllBytes(Paths.get(file)));
-			
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
+	}
+
+	public RestBulkClient createFromRefreshToken() {
+		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+
+			final List<NameValuePair> loginParams = new ArrayList<NameValuePair>();
+			loginParams.add(new BasicNameValuePair("grant_type", GRANT_TYPE));
+			loginParams.add(new BasicNameValuePair("client_id", CLIENT_ID));
+			loginParams.add(new BasicNameValuePair("client_secret", CLIENT_SECRET));
+			loginParams.add(new BasicNameValuePair("refresh_token", REFRESH_TOKEN));
+
+			final HttpPost post = new HttpPost(TOKEN_URL);
+			post.setEntity(new UrlEncodedFormEntity(loginParams));
+			final HttpResponse loginResponse = httpclient.execute(post);
+
+			// parse
+			final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+
+			final JsonNode loginResult = mapper.readValue(loginResponse.getEntity().getContent(), JsonNode.class);
+			accessToken = loginResult.get("access_token").asText();
+			instanceUrl = loginResult.get("instance_url").asText();
+			System.out.println("accessToken - " + accessToken);
+			System.out.println("instanceUrl - " + instanceUrl);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-        
-		
-		 data = new StringEntity(fileContents,"UTF-8");
-		 data.setContentType("text/csv");
-		 
-         final HttpPut put = new HttpPut(uploadUri);
-         put.setHeader("Authorization", authorization);
-         put.setHeader("Content-Type", "text/csv");
-         put.setHeader("Accept", "application/json");
-         put.setEntity(data);
-         
-         HttpResponse response = null;
-         
-         try (CloseableHttpClient httpclient = HttpClients.createDefault()){
-        	 response = httpclient.execute(put);
-        	 
-         } catch (IOException e1) {
-			// TODO Auto-generated catch block
+
+		return this;
+	}
+
+	public String createJob(String object) {
+		JsonNode responseJson = null;
+		HttpResponse response = null;
+		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+			final String uri = instanceUrl + REST_URI;
+			System.out.println("createjob URI -> " + uri);
+			final String authorization = BEARER + " " + accessToken;
+
+			// Set JSON body
+			final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+			final CreateJobRequest request = new CreateJobRequest(object, "CSV", "insert", "CRLF");
+
+			final String requestJson = mapper.writeValueAsString(request);
+			final StringEntity jsonBody = new StringEntity(requestJson);
+
+			// post the request
+			final HttpPost post = new HttpPost(uri);
+			post.setHeader("Authorization", authorization);
+			post.setHeader("Content-Type", CONTENT_TYPE);
+			post.setEntity(jsonBody);
+			System.out
+					.println("create job input jsonBody -> " + mapper.readValue(jsonBody.getContent(), JsonNode.class));
+
+			response = httpclient.execute(post);
+			responseJson = mapper.readValue(response.getEntity().getContent(), JsonNode.class);
+
+			System.out.println("create job responseJson -> " + responseJson);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return (responseJson.get("id") == null?null:(responseJson.get("id")).asText());
+
+	}
+
+	public int uploadData(String file, String jobId) {
+		final String uploadUri = instanceUrl + REST_URI + jobId + "/batches";
+		System.out.println("upload data uri -> " + uploadUri);
+		final String authorization = BEARER + " " + accessToken;
+
+		StringEntity data = null;
+		HttpResponse response = null;
+		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+			String fileContents = new String(Files.readAllBytes(Paths.get(file)));
+			data = new StringEntity(fileContents);
+
+			data.setContentType("text/csv");
+
+			final HttpPut put = new HttpPut(uploadUri);
+			put.setHeader("Authorization", authorization);
+			put.setHeader("Content-Type", "text/csv");
+			put.setHeader("Accept", "application/json");
+			put.setEntity(data);
+			response = httpclient.execute(put);
+		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-         
-			
+		System.out.println("upload data response status code -> " + response.getStatusLine().getStatusCode());
 		return response.getStatusLine().getStatusCode();
-	 }
-	 
-	 public void getSucessfulResults(String jobId)
-	 {
-		//Set JSON body
-        final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        String url = instanceUrl + REST_URI+ jobId + "/successfulResults/";
-        final String authorization = BEARER + " " + accessToken;
-                 
-        final HttpGet get = new HttpGet(url);
-        get.setHeader("Authorization", authorization);
-        get.setHeader("Content-Type", CONTENT_TYPE);
-        
-        final CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpResponse response = null;
+	}
+
+	public void getSucessfulResults(String jobId) {
+		// Set JSON body
+		final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+		String url = instanceUrl + REST_URI + jobId + "/successfulResults/";
+		final String authorization = BEARER + " " + accessToken;
+
+		final HttpGet get = new HttpGet(url);
+		get.setHeader("Authorization", authorization);
+		get.setHeader("Content-Type", CONTENT_TYPE);
+
+		HttpResponse response = null;
+		String responseEntity = null;
+		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+			response = httpclient.execute(get);
+			if(response.getEntity() != null)
+				responseEntity = EntityUtils.toString(response.getEntity());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("get successful responseJson -> " + responseEntity);
+
+	}
+
+	public void getFailedResults(String jobId) {
+		// Set JSON body
+		final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+		String url = instanceUrl + REST_URI + jobId + "/failedResults/";
+		final String authorization = BEARER + " " + accessToken;
+
+		final HttpGet get = new HttpGet(url);
+		get.setHeader("Authorization", authorization);
+		get.setHeader("Content-Type", CONTENT_TYPE);
+		HttpResponse response = null;
+		String responseEntity = null;
+		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+
+			response = httpclient.execute(get);
+			responseEntity = EntityUtils.toString(response.getEntity());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("get failed responseJson -> " + responseEntity);
+	}
+
+	public void getUnprocessedResults(String jobId) {
+		// Set JSON body
+		final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+		String url = instanceUrl + REST_URI + jobId + "/unprocessedrecords/";
+		final String authorization = BEARER + " " + accessToken;
+		// Set Headers
+		final List<NameValuePair> apiParams = new ArrayList<NameValuePair>();
+		apiParams.add(new BasicNameValuePair("Authorization", authorization));
+		apiParams.add(new BasicNameValuePair("Content-Type", CONTENT_TYPE));
+
+		apiParams.add(new BasicNameValuePair("Accept", ACCEPT));
+
+		final HttpGet get = new HttpGet(url);
+		get.setHeader("Authorization", authorization);
+		get.setHeader("Content-Type", CONTENT_TYPE);
+
+		HttpResponse response = null;
+		String responseEntity = null;
+		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+			response = httpclient.execute(get);
+			responseEntity = EntityUtils.toString(response.getEntity());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("get unprocessed responseJson -> " + responseEntity);
+	}
+
+	public void closeOrAbortJob(String jobId) {
+		// Set JSON body
+		final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+		String url = instanceUrl + REST_URI + jobId;
+		final String authorization = BEARER + " " + accessToken;
+
+		final HttpPatch patch = new HttpPatch(url);
+		patch.setHeader("Authorization", authorization);
+		patch.setHeader("Content-Type", CONTENT_TYPE);
+		StringEntity jsonBody = null;
+		HttpResponse response = null;
+		JsonNode responseJson = null;
+		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+			jsonBody = new StringEntity("{\"state\":" + "\"" + JobStateEnum.UploadComplete.toString() + "\"}");
+			patch.setEntity(jsonBody);
+			response = httpclient.execute(patch);
+			responseJson = mapper.readValue(response.getEntity().getContent(), JsonNode.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("close job responseJson -> " + responseJson);
+	}
+
+	public void getAllJobs() {
+		// Set JSON body
+		final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+		String url = instanceUrl + "/services/data/v42.0/jobs/ingest";
+		final String authorization = BEARER + " " + accessToken;
+
+		final HttpGet get = new HttpGet(url);
+		get.setHeader("Authorization", authorization);
+		get.setHeader("Content-Type", CONTENT_TYPE);
+
+		final CloseableHttpClient httpclient = HttpClients.createDefault();
+		HttpResponse response = null;
 		try {
 			response = httpclient.execute(get);
 		} catch (ClientProtocolException e) {
@@ -201,216 +272,25 @@ public class RestBulkClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-           
-		String responseEntity = null;
-      
-        try {
-			responseEntity = EntityUtils.toString(response.getEntity());
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        
-        System.out.println("get successful responseJson -> "+responseEntity);
-		
-	 }
-	 public void getFailedResults(String jobId)
-	 {
-		//Set JSON body
-        final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        String url = instanceUrl + REST_URI+ jobId + "/failedResults/";
-        final String authorization = BEARER + " " + accessToken;
-        //Set Headers
-        final List<NameValuePair> apiParams = new ArrayList<NameValuePair>();
-        apiParams.add(new BasicNameValuePair("Authorization", authorization));
-        apiParams.add(new BasicNameValuePair("Content-Type", CONTENT_TYPE));
-      
-        apiParams.add(new BasicNameValuePair("Accept", ACCEPT));
 
-         
-        final HttpGet get = new HttpGet(url);
-        get.setHeader("Authorization", authorization);
-        get.setHeader("Content-Type", CONTENT_TYPE);
-        
-        final CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpResponse response = null;
+		JsonNode responseJson = null;
 		try {
-			response = httpclient.execute(get);
-		} catch (ClientProtocolException e) {
+			responseJson = mapper.readValue(response.getEntity().getContent(), JsonNode.class);
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedOperationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("responseJson -> " + responseJson);
 
-		String responseEntity = null;
-	      
-        try {
-			responseEntity = EntityUtils.toString(response.getEntity());
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        
-        System.out.println("get failed responseJson -> "+responseEntity);
-	 }
-	 
-	 
-	 public void getUnprocessedResults(String jobId)
-	 {
-		//Set JSON body
-        final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        String url = instanceUrl + REST_URI+ jobId + "/unprocessedrecords/";
-        final String authorization = BEARER + " " + accessToken;
-        //Set Headers
-        final List<NameValuePair> apiParams = new ArrayList<NameValuePair>();
-        apiParams.add(new BasicNameValuePair("Authorization", authorization));
-        apiParams.add(new BasicNameValuePair("Content-Type", CONTENT_TYPE));
-      
-        apiParams.add(new BasicNameValuePair("Accept", ACCEPT));
+	}
 
-         
-        final HttpGet get = new HttpGet(url);
-        get.setHeader("Authorization", authorization);
-        get.setHeader("Content-Type", CONTENT_TYPE);
-        
-        final CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpResponse response = null;
-		try {
-			response = httpclient.execute(get);
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-		String responseEntity = null;
-	      
-        try {
-			responseEntity = EntityUtils.toString(response.getEntity());
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        System.out.println("get unprocessed responseJson -> "+responseEntity);
-	 }
-	 
-	 public void closeOrAbortJob(String jobId)
-	 {
-		//Set JSON body
-	        final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-	        String url = instanceUrl + REST_URI+ jobId;
-	        final String authorization = BEARER + " " + accessToken;
-	        //Set Headers
-	        final List<NameValuePair> apiParams = new ArrayList<NameValuePair>();
-	        apiParams.add(new BasicNameValuePair("Authorization", authorization));
-	        apiParams.add(new BasicNameValuePair("Content-Type", CONTENT_TYPE));
-	      
-	        apiParams.add(new BasicNameValuePair("Accept", ACCEPT));
-
-	         
-	        final HttpPatch patch = new HttpPatch(url);
-	        patch.setHeader("Authorization", authorization);
-	        patch.setHeader("Content-Type", CONTENT_TYPE);
-	        StringEntity jsonBody= null;
-	        try {
-				 jsonBody = new StringEntity("{\"state\":"+"\""+JobStateEnum.UploadComplete.toString()+"\"}");
-			} catch (UnsupportedEncodingException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-	        patch.setEntity(jsonBody);
-	        final CloseableHttpClient httpclient = HttpClients.createDefault();
-	        HttpResponse response = null;
-			try {
-				response = httpclient.execute(patch);
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-	        JsonNode responseJson = null;
-			try {
-				responseJson = mapper.readValue(response.getEntity().getContent(), JsonNode.class);
-			} catch (JsonParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedOperationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        System.out.println("close job responseJson -> "+responseJson);
-	 }
-	 
-	 public void getAllJobs() {
-			 //Set JSON body
-	         final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-	        String url = instanceUrl + "/services/data/v42.0/jobs/ingest";
-	        final String authorization = BEARER + " " + accessToken;
-	        //Set Headers
-            final List<NameValuePair> apiParams = new ArrayList<NameValuePair>();
-            apiParams.add(new BasicNameValuePair("Authorization", authorization));
-            apiParams.add(new BasicNameValuePair("Content-Type", CONTENT_TYPE));
-          
-            apiParams.add(new BasicNameValuePair("Accept", ACCEPT));
-
-             
-            final HttpGet get = new HttpGet(url);
-            get.setHeader("Authorization", authorization);
-            get.setHeader("Content-Type", CONTENT_TYPE);
-            
-            final CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpResponse response = null;
-			try {
-				response = httpclient.execute(get);
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-            JsonNode responseJson = null;
-			try {
-				responseJson = mapper.readValue(response.getEntity().getContent(), JsonNode.class);
-			} catch (JsonParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedOperationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            System.out.println("responseJson -> "+responseJson);
-	 
-	 }
-	 
 }

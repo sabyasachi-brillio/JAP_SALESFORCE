@@ -54,36 +54,46 @@
     <version>2.9.5</version>
 </dependency>
 
+
     
   </dependencies>
- <!-- <build>
+ 
+  <build> 
   <plugins>
-    <plugin>
+     <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.5.1</version>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+        </plugin>
+     
+         <plugin>
 		  <groupId>com.mysema.scalagen</groupId>
 		  <artifactId>scalagen-maven-plugin</artifactId>
 		  <version>0.2.2</version>
-		</plugin>
-    </plugins>
-  </build>   -->
-  <build>
-  <plugins>
-      <!-- any other plugins -->
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-        </configuration>
-      </plugin>
+		</plugin>  
+        <!-- https://mvnrepository.com/artifact/com.mysema.scalagen/scalagen-maven-plugin -->
+	
+	<plugin>
+
+		<artifactId>maven-assembly-plugin</artifactId>
+		<executions>
+			<execution>
+				<phase>package</phase>
+				<goals>
+					<goal>single</goal>
+				</goals>
+			</execution>
+		</executions>
+		<configuration>
+			<descriptorRefs>
+				<descriptorRef>jar-with-dependencies</descriptorRef>
+			</descriptorRefs>
+		</configuration>
+	</plugin>
     </plugins>
     </build>
 </project>
