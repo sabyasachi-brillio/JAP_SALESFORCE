@@ -102,7 +102,7 @@ public class RestBulkClient {
 
 			// Set JSON body
 			final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-			final CreateJobRequest request = new CreateJobRequest(object, "CSV", "insert", "CRLF");
+			final CreateJobRequest request = new CreateJobRequest(object, "CSV", "insert", "LF");
 
 			final String requestJson = mapper.writeValueAsString(request);
 			final StringEntity jsonBody = new StringEntity(requestJson);
