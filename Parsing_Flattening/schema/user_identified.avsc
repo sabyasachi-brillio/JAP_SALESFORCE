@@ -1,0 +1,141 @@
+{
+  "type" : "record",
+  "name" : "UserIdentified",
+  "namespace" : "com.jemstep.model.events.shared",
+  "doc" : "",
+  "fields" : [ {
+    "name" : "userId",
+    "type" : "string"
+  }, {
+    "name" : "externalId",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "organizationId",
+    "type" : "string"
+  }, {
+    "name" : "username",
+    "type" : "string"
+  }, {
+    "name" : "firstName",
+    "type" : "string"
+  }, {
+    "name" : "lastName",
+    "type" : "string"
+  }, {
+    "name" : "emailAddress",
+    "type" : "string"
+  }, {
+    "name" : "userStatus",
+    "type" : {
+      "type" : "record",
+      "name" : "UserStatus",
+      "namespace" : "com.jemstep.model.security",
+      "doc" : "",
+      "fields" : [ {
+        "name" : "lastIssueDate",
+        "type" : "string"
+      }, {
+        "name" : "userSince",
+        "type" : "string"
+      }, {
+        "name" : "registeredForAggr",
+        "type" : "boolean"
+      }, {
+        "name" : "lastAggregation",
+        "type" : [ "null", "string" ]
+      }, {
+        "name" : "lastManualUpdate",
+        "type" : [ "null", "string" ]
+      }, {
+        "name" : "billingState",
+        "type" : "string"
+      }, {
+        "name" : "userFlowStatus",
+        "type" : {
+          "type" : "record",
+          "name" : "UserFlowStatus",
+          "doc" : "",
+          "fields" : [ {
+            "name" : "hasGoal",
+            "type" : "boolean"
+          }, {
+            "name" : "hasPortfolio",
+            "type" : "boolean"
+          }, {
+            "name" : "viewedAssetAllocation",
+            "type" : "boolean"
+          }, {
+            "name" : "viewedActionPlan",
+            "type" : "boolean"
+          }, {
+            "name" : "hasCompletedSandboxGoal",
+            "type" : "boolean"
+          }, {
+            "name" : "signingCeremonyInProgress",
+            "type" : "boolean"
+          } ]
+        }
+      } ]
+    }
+  }, {
+    "name" : "accessMeta",
+    "type" : {
+      "type" : "record",
+      "name" : "AccessMeta",
+      "namespace" : "com.jemstep.model.analytics",
+      "doc" : "",
+      "fields" : [ {
+        "name" : "clientAddr",
+        "type" : "string"
+      }, {
+        "name" : "remoteAddr",
+        "type" : "string"
+      }, {
+        "name" : "userAgent",
+        "type" : "string"
+      }, {
+        "name" : "proto",
+        "type" : "string"
+      }, {
+        "name" : "host",
+        "type" : "string"
+      }, {
+        "name" : "uri",
+        "type" : "string"
+      }, {
+        "name" : "method",
+        "type" : "string"
+      }, {
+        "name" : "referrer",
+        "type" : "string"
+      } ]
+    }
+  }, {
+    "name" : "seoCampaign",
+    "type" : {
+      "type" : "record",
+      "name" : "SEOCampaign",
+      "namespace" : "com.jemstep.model.analytics",
+      "doc" : "",
+      "fields" : [ {
+        "name" : "source",
+        "type" : "string"
+      }, {
+        "name" : "campaign",
+        "type" : "string"
+      }, {
+        "name" : "medium",
+        "type" : "string"
+      }, {
+        "name" : "keyword",
+        "type" : "string"
+      }, {
+        "name" : "adContent",
+        "type" : "string"
+      }, {
+        "name" : "adClickId",
+        "type" : "string"
+      } ]
+    }
+  } ]
+}

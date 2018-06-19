@@ -1,0 +1,65 @@
+{
+  "type" : "record",
+  "name" : "Goal",
+  "namespace" : "com.jemstep.model.goal",
+  "doc" : "",
+  "fields" : [ {
+    "name" : "id",
+    "type" : "string"
+  }, {
+    "name" : "goalObjective",
+    "type" : "string"
+  }, {
+    "name" : "goalType",
+    "type" : "string"
+  }, {
+    "name" : "properties",
+    "type" : {
+      "type" : "record",
+      "name" : "GoalProperties",
+      "doc" : "",
+      "fields" : [ {
+        "name" : "goalName",
+        "type" : "string"
+      }, {
+        "name" : "created",
+        "type" : "string"
+      }, {
+        "name" : "updated",
+        "type" : "string"
+      } ]
+    }
+  }, {
+    "name" : "questionnaire",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "ModelQuestionnaire",
+      "namespace" : "com.jemstep.model.questionnaire",
+      "doc" : "",
+      "fields" : [ {
+        "name" : "questions",
+        "type" : {
+          "type" : "array",
+          "items" : {
+            "type" : "record",
+            "name" : "ModelQuestion",
+            "doc" : "",
+            "fields" : [ {
+              "name" : "questionId",
+              "type" : "string"
+            }, {
+              "name" : "answer",
+              "type" : [ "null", "string" ]
+            } ]
+          }
+        }
+      } ]
+    } ]
+  }, {
+    "name" : "relatedGoalId",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "overrideTargetModel",
+    "type" : [ "null", "string" ]
+  } ]
+}

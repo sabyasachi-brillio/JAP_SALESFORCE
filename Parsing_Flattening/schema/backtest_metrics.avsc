@@ -1,0 +1,64 @@
+{
+  "type" : "record",
+  "name" : "BacktestMetrics",
+  "namespace" : "com.jemstep.model.assetliability",
+  "doc" : "",
+  "fields" : [ {
+    "name" : "currentAnnualizedReturn",
+    "type" : "double"
+  }, {
+    "name" : "targetAnnualizedReturn",
+    "type" : "double"
+  }, {
+    "name" : "currentBestYearPercentage",
+    "type" : "double"
+  }, {
+    "name" : "currentBestYear",
+    "type" : "int"
+  }, {
+    "name" : "targetBestYearPercentage",
+    "type" : "double"
+  }, {
+    "name" : "targetBestYear",
+    "type" : "int"
+  }, {
+    "name" : "currentWorstYearPercentage",
+    "type" : "double"
+  }, {
+    "name" : "currentWorstYear",
+    "type" : "int"
+  }, {
+    "name" : "targetWorstYearPercentage",
+    "type" : "double"
+  }, {
+    "name" : "targetWorstYear",
+    "type" : "int"
+  }, {
+    "name" : "currentYearsWithLosses",
+    "type" : "int"
+  }, {
+    "name" : "targetYearsWithLosses",
+    "type" : "int"
+  }, {
+    "name" : "currentExpenseRatio",
+    "type" : "double"
+  }, {
+    "name" : "costOfFeesOnCurrentPortfolio",
+    "type" : "double"
+  }, {
+    "name" : "targetExpenseRatio",
+    "type" : "double"
+  }, {
+    "name" : "costOfFeesOnTargetPortfolio",
+    "type" : "double"
+  }, {
+    "name" : "opportunityFeeSaving20Yrs",
+    "type" : "double"
+  }, {
+    "name" : "actualFeeSavingAnnual",
+    "type" : "double"
+  }, {
+    "name" : "actualFeeSaving15Yrs",
+    "type" : "double"
+  } ]
+}

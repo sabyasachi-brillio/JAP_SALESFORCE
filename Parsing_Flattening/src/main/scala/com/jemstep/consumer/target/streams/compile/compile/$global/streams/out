@@ -1,0 +1,118 @@
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:3:8: not found: object akka[0m
+[0m[[0m[31merror[0m] [0m[0mimport akka.Done[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:4:8: not found: object akka[0m
+[0m[[0m[31merror[0m] [0m[0mimport akka.actor.ActorSystem[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:5:8: not found: object akka[0m
+[0m[[0m[31merror[0m] [0m[0mimport akka.kafka.scaladsl.Consumer[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:6:8: not found: object akka[0m
+[0m[[0m[31merror[0m] [0m[0mimport akka.kafka.{ConsumerSettings, Subscriptions}[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:7:8: not found: object akka[0m
+[0m[[0m[31merror[0m] [0m[0mimport akka.stream.ActorMaterializer[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:8:8: not found: object akka[0m
+[0m[[0m[31merror[0m] [0m[0mimport akka.stream.scaladsl.{Sink, Source}[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:9:20: object commons is not a member of package com.jemstep[0m
+[0m[[0m[31merror[0m] [0m[0mimport com.jemstep.commons.Config._[0m
+[0m[[0m[31merror[0m] [0m[0m                   ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:10:20: object commons is not a member of package com.jemstep[0m
+[0m[[0m[31merror[0m] [0m[0mimport com.jemstep.commons.JemstepKafkaAvroDeserializer[0m
+[0m[[0m[31merror[0m] [0m[0m                   ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:11:12: object apache is not a member of package org[0m
+[0m[[0m[31merror[0m] [0m[0mimport org.apache.avro.generic.GenericRecord[0m
+[0m[[0m[31merror[0m] [0m[0m           ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:12:12: object apache is not a member of package org[0m
+[0m[[0m[31merror[0m] [0m[0mimport org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}[0m
+[0m[[0m[31merror[0m] [0m[0m           ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:13:12: object apache is not a member of package org[0m
+[0m[[0m[31merror[0m] [0m[0mimport org.apache.kafka.common.serialization.ByteArrayDeserializer[0m
+[0m[[0m[31merror[0m] [0m[0m           ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:17:20: object commons is not a member of package com.jemstep[0m
+[0m[[0m[31merror[0m] [0m[0mimport com.jemstep.commons.Util._[0m
+[0m[[0m[31merror[0m] [0m[0m                   ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:18:8: not found: object net[0m
+[0m[[0m[31merror[0m] [0m[0mimport net.liftweb.json._[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:19:12: object opencsv is not a member of package com[0m
+[0m[[0m[31merror[0m] [0m[0mimport com.opencsv.CSVWriter[0m
+[0m[[0m[31merror[0m] [0m[0m           ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:23:24: not found: type ActorSystem[0m
+[0m[[0m[31merror[0m] [0m[0m  implicit val system: ActorSystem = ActorSystem("PlainSourceConsumerMain")[0m
+[0m[[0m[31merror[0m] [0m[0m                       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:23:38: not found: value ActorSystem[0m
+[0m[[0m[31merror[0m] [0m[0m  implicit val system: ActorSystem = ActorSystem("PlainSourceConsumerMain")[0m
+[0m[[0m[31merror[0m] [0m[0m                                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:24:30: not found: type ActorMaterializer[0m
+[0m[[0m[31merror[0m] [0m[0m  implicit val materializer: ActorMaterializer = ActorMaterializer()[0m
+[0m[[0m[31merror[0m] [0m[0m                             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:24:50: not found: value ActorMaterializer[0m
+[0m[[0m[31merror[0m] [0m[0m  implicit val materializer: ActorMaterializer = ActorMaterializer()[0m
+[0m[[0m[31merror[0m] [0m[0m                                                 ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:26:26: not found: value ConsumerSettings[0m
+[0m[[0m[31merror[0m] [0m[0m  val consumerSettings = ConsumerSettings(system, new ByteArrayDeserializer, new JemstepKafkaAvroDeserializer)[0m
+[0m[[0m[31merror[0m] [0m[0m                         ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:26:55: not found: type ByteArrayDeserializer[0m
+[0m[[0m[31merror[0m] [0m[0m  val consumerSettings = ConsumerSettings(system, new ByteArrayDeserializer, new JemstepKafkaAvroDeserializer)[0m
+[0m[[0m[31merror[0m] [0m[0m                                                      ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:26:82: not found: type JemstepKafkaAvroDeserializer[0m
+[0m[[0m[31merror[0m] [0m[0m  val consumerSettings = ConsumerSettings(system, new ByteArrayDeserializer, new JemstepKafkaAvroDeserializer)[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                                 ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:27:25: not found: value kafka_server[0m
+[0m[[0m[31merror[0m] [0m[0m  .withBootstrapServers(kafka_server)[0m
+[0m[[0m[31merror[0m] [0m[0m                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:29:17: not found: value ConsumerConfig[0m
+[0m[[0m[31merror[0m] [0m[0m  .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")[0m
+[0m[[0m[31merror[0m] [0m[0m                ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:31:64: not found: value kafka_server[0m
+[0m[[0m[31merror[0m] [0m[0m  println(s"${getClass.getSimpleName} receiving messages from $kafka_server")[0m
+[0m[[0m[31merror[0m] [0m[0m                                                               ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:33:15: not found: type Source[0m
+[0m[[0m[31merror[0m] [0m[0m  val source: Source[Done, Consumer.Control] = Consumer.committableSource(consumerSettings, Subscriptions.topics("investor"))[0m
+[0m[[0m[31merror[0m] [0m[0m              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:33:48: not found: value Consumer[0m
+[0m[[0m[31merror[0m] [0m[0m  val source: Source[Done, Consumer.Control] = Consumer.committableSource(consumerSettings, Subscriptions.topics("investor"))[0m
+[0m[[0m[31merror[0m] [0m[0m                                               ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:33:93: not found: value Subscriptions[0m
+[0m[[0m[31merror[0m] [0m[0m  val source: Source[Done, Consumer.Control] = Consumer.committableSource(consumerSettings, Subscriptions.topics("investor"))[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:45:72: not found: type Done[0m
+[0m[[0m[31merror[0m] [0m[0m  def save(record: ConsumerRecord[Array[Byte], GenericRecord]): Future[Done] = {[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:45:20: not found: type ConsumerRecord[0m
+[0m[[0m[31merror[0m] [0m[0m  def save(record: ConsumerRecord[Array[Byte], GenericRecord]): Future[Done] = {[0m
+[0m[[0m[31merror[0m] [0m[0m                   ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:40:20: not found: type Done[0m
+[0m[[0m[31merror[0m] [0m[0m  val done: Future[Done] = source.runWith(Sink.ignore)[0m
+[0m[[0m[31merror[0m] [0m[0m                   ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:46:26: not found: value headerValue[0m
+[0m[[0m[31merror[0m] [0m[0m    val userId: String = headerValue("userId", record.headers)[0m
+[0m[[0m[31merror[0m] [0m[0m                         ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:47:34: not found: value headerValue[0m
+[0m[[0m[31merror[0m] [0m[0m    val organizationId: String = headerValue("organizationId", record.headers)[0m
+[0m[[0m[31merror[0m] [0m[0m                                 ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:48:29: not found: value headerValue[0m
+[0m[[0m[31merror[0m] [0m[0m    val operation: String = headerValue("operation", record.headers)[0m
+[0m[[0m[31merror[0m] [0m[0m                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:55:23: not found: value Done[0m
+[0m[[0m[31merror[0m] [0m[0m    Future.successful(Done)[0m
+[0m[[0m[31merror[0m] [0m[0m                      ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:64:25: not found: value DefaultFormats[0m
+[0m[[0m[31merror[0m] [0m[0m	implicit val formats = DefaultFormats[0m
+[0m[[0m[31merror[0m] [0m[0m	                       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:66:23: not found: type CSVWriter[0m
+[0m[[0m[31merror[0m] [0m[0m		val csvWriter = new CSVWriter(new BufferedWriter(new FileWriter("./output/accountpe/accoutPE.csv")))[0m
+[0m[[0m[31merror[0m] [0m[0m		                    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:66:37: not found: type BufferedWriter[0m
+[0m[[0m[31merror[0m] [0m[0m		val csvWriter = new CSVWriter(new BufferedWriter(new FileWriter("./output/accountpe/accoutPE.csv")))[0m
+[0m[[0m[31merror[0m] [0m[0m		                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:66:56: not found: type FileWriter[0m
+[0m[[0m[31merror[0m] [0m[0m		val csvWriter = new CSVWriter(new BufferedWriter(new FileWriter("./output/accountpe/accoutPE.csv")))[0m
+[0m[[0m[31merror[0m] [0m[0m		                                                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/code/kafka-consumer-example/src/main/scala/com/jemstep/consumer/PlainSourceConsumerMain.scala:67:3: not found: value parse[0m
+[0m[[0m[31merror[0m] [0m[0m		parse (jsonString).extract[PortfolioByBroker].brokers.foreach (x => x.accounts.foreach(y => { csvWriter.writeNext(Array(y.accountType + "," + y.accountNumber + "," +y.accountName + "," + y.currency + "," + y.accountStatus))}))[0m
+[0m[[0m[31merror[0m] [0m[0m		^[0m
+[0m[[0m[31merror[0m] [0m[0m39 errors found[0m

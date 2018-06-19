@@ -1,0 +1,24 @@
+{
+  "type" : "record",
+  "name" : "ModelQuestionnaire",
+  "namespace" : "com.jemstep.model.questionnaire",
+  "doc" : "",
+  "fields" : [ {
+    "name" : "questions",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "ModelQuestion",
+        "doc" : "",
+        "fields" : [ {
+          "name" : "questionId",
+          "type" : "string"
+        }, {
+          "name" : "answer",
+          "type" : [ "null", "string" ]
+        } ]
+      }
+    }
+  } ]
+}

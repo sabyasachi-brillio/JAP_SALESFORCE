@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="default"
+		module="kafka-consumer-example-build"
+		revision="0.1.0-SNAPSHOT"
+		extra-scalaVersion="2.12"
+		extra-sbtVersion="1.0"
+		conf="compile"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
+		date="20180615054127"/>
+	<dependencies>
+		<module organisation="org.wartremover" name="sbt-wartremover">
+			<revision name="2.2.1" status="release" pubdate="20170924235000" resolver="public" artresolver="public" homepage="http://wartremover.org" extra-scalaVersion="2.12" extra-sbtVersion="1.0" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master" position="0">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1977" time="894" location="/root/.ivy2/cache/scala_2.12/sbt_1.0/org.wartremover/sbt-wartremover/ivy-2.2.1.xml" searched="true" original-local-location="/root/.ivy2/cache/scala_2.12/sbt_1.0/org.wartremover/sbt-wartremover/ivy-2.2.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/wartremover/sbt-wartremover_2.12_1.0/2.2.1/sbt-wartremover-2.2.1.pom"/>
+				<caller organisation="default" name="kafka-consumer-example-build" conf="compile" rev="2.2.1" rev-constraint-default="2.2.1" rev-constraint-dynamic="2.2.1" callerrev="0.1.0-SNAPSHOT" extra-scalaVersion="2.12" extra-sbtVersion="1.0"/>
+				<artifacts>
+					<artifact name="sbt-wartremover" type="jar" ext="jar" status="successful" details="" size="19989" time="1320" location="/root/.ivy2/cache/scala_2.12/sbt_1.0/org.wartremover/sbt-wartremover/jars/sbt-wartremover-2.2.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/wartremover/sbt-wartremover_2.12_1.0/2.2.1/sbt-wartremover-2.2.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>
